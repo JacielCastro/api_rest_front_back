@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Orientações</title>
+
+    <link rel="stylesheet" href="assets/css/listar-orientacoes.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Listar Orientações</h1>
+        <div id="orientacoes-lista"></div>
+    </div>
+
+    <script>
+        // Função para carregar as orientações
+        async function carregarOrientacoes() {
+            try {
+                const response = await fetch('/orientacoes');
+                const orientacoes = await response.json();
+                
+                const orientacoesLista = document.getElementById('orientacoes-lista');
+
+                orientacoes.forEach(orientacao => {
+                    const divOrientacao = document.createElement('div');
+                    divOrientacao.classList.add('orientacao');
+
+                    divOrientacao.innerHTML = `
+                        <h2>${orientacao.titulo}</h2>
+                        <p>${orientacao.descricao}</p>
+                        <img src="../${orientacao.imagem}" alt="Imagem da Orientação">
+                    `;
+
+                    orientacoesLista.appendChild(divOrientacao);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar orientações:', error);
+            }
+        }
+
+        // Carregar as orientações quando a página carregar
+        window.addEventListener('load', carregarOrientacoes);
+    </script>
+</body>
+</html>
